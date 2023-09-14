@@ -28,4 +28,14 @@ class Payment extends Model
     protected $casts = [
         'details' => 'array',
     ];
+
+    /**
+     * A payment status may have many orders.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

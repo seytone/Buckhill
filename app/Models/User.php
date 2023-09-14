@@ -52,4 +52,14 @@ class User extends Authenticatable
         'password' => 'hashed',
         'last_login_at' => 'datetime',
     ];
+
+    /**
+     * A user may have many orders.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

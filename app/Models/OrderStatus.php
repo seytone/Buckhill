@@ -18,4 +18,14 @@ class OrderStatus extends Model
         'uuid',
         'title',
     ];
+
+    /**
+     * A order status may have many orders.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

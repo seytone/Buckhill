@@ -38,4 +38,34 @@ class Order extends Model
         'products' => 'array',
         'address' => 'array',
     ];
+
+    /**
+     * A order belongs to a user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * A order belongs to a order_status.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function order_status()
+    {
+        return $this->belongsTo(OrderStatus::class);
+    }
+
+    /**
+     * A order belongs to a payment.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function payment()
+    {
+        return $this->belongsTo(Payment::class);
+    }
 }
