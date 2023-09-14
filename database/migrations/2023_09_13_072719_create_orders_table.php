@@ -15,7 +15,7 @@ return new class extends Migration
             $table->bigIncrements('id')->unsigned();
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('order_status_id')->unsigned();
-            $table->bigInteger('payment_id')->unsigned();
+            $table->bigInteger('payment_id')->unsigned()->nullable();
             $table->char('uuid', 36)->unique();
             $table->json('products')->nullable();
             $table->json('address')->nullable();
@@ -24,9 +24,9 @@ return new class extends Migration
             $table->timestamps();
             $table->timestamp('shipped_at')->nullable();
 
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('order_status_id')->references('id')->on('order_statuses');
-            $table->foreign('payment_id')->references('id')->on('payments');
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('restrict');
+            $table->foreign('order_status_id')->references('id')->on('order_statuses')->onUpdate('cascade')->onDelete('restrict');
+            $table->foreign('payment_id')->references('id')->on('payments')->onUpdate('cascade')->onDelete('set null');
         });
     }
 

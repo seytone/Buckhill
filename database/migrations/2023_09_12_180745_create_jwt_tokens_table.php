@@ -23,7 +23,7 @@ return new class extends Migration
             $table->timestamp('last_used_at')->nullable();
             $table->timestamp('refreshed_at')->nullable();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
