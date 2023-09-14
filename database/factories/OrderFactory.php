@@ -30,19 +30,22 @@ class OrderFactory extends Factory
             ];
         }
 
+        $status = OrderStatus::all()->random();
+        $payment = ($status->title == 'paid' || $status->title == 'shipped') ? Payment::all()->random()->id : null;
+
         return [
             'user_id' => User::factory(),
-            'order_status_id' => OrderStatus::factory(),
-            'payment_id' => Payment::factory(),
+            'order_status_id' => $status->id,
+            'payment_id' => $payment,
             'uuid' => fake()->unique()->uuid(),
             'products' => $products,
             'address' => [
                 'billing' => fake()->address(),
                 'shipping' => fake()->address(),
             ],
-            'delivery_fee' => fake()->randomFloat(2, 0, 100),
-            'amount' => fake()->randomFloat(2, 0, 100),
-            'shipped_at' => fake()->dateTime(),
+            'delivery_fee' => fake()->randomFloat(2, 0, 10),
+            'amount' => fake()->randomFloat(2, 20, 1000),
+            'shipped_at' => $status->title == 'shipped' ? fake()->dateTimeThisYear() : null,
         ];
     }
 }
