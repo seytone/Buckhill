@@ -27,9 +27,18 @@ class UserController extends Controller
      */
     /**
      * @OA\Get(
-     *     path="/api/v1/user/{id}",
+     *     path="/user/{id}",
+     *     tags={"User"},
      *     summary="Get logged-in user details",
-     *     @OA\Response(response="200", description="Success"),
+     *     description="Get logged-in user details",
+     *     @OA\Response(
+     *        response=200,
+     *        description="User fetched successfully.",
+     *        @OA\JsonContent(
+     *          @OA\Property(property="status_code", type="integer", example="200"),
+     *          @OA\Property(property="data", type="object")
+     *        ),
+     *     ),
      *     security={{"bearerAuth":{}}}
      * )
      */
@@ -57,8 +66,10 @@ class UserController extends Controller
      */
     /**
      * @OA\Put(
-     *     path="/api/v1/user/{id}",
+     *     path="/user/{id}",
+     *     tags={"User"},
      *     summary="Update the given user",
+     *     description="Update the given user",
      *     @OA\Parameter(
      *         name="first_name",
      *         in="query",
@@ -94,8 +105,23 @@ class UserController extends Controller
      *         required=true,
      *         @OA\Schema(type="string")
      *     ),
-     *     @OA\Response(response="201", description="User updated successfully"),
-     *     @OA\Response(response="422", description="Validation errors")
+     *     @OA\Response(
+     *        response=200,
+     *        description="User updated successfully.",
+     *        @OA\JsonContent(
+     *          @OA\Property(property="status_code", type="integer", example="200"),
+     *          @OA\Property(property="data", type="object")
+     *        ),
+     *     ),
+     *     @OA\Response(
+     *        response=403,
+     *        description="Validation errors.",
+     *        @OA\JsonContent(
+     *          @OA\Property(property="status_code", type="integer", example="403"),
+     *          @OA\Property(property="data", type="object")
+     *        ),
+     *     ),
+     *     security={{ "bearerAuth":{ }}}
      * )
      */
     public function update(Request $request, string $id)
@@ -142,14 +168,6 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    /**
-     * @OA\Delete(
-     *     path="/api/v1/admin/user/{id}",
-     *     summary="Remove the given user",
-     *     @OA\Response(response="200", description="Success"),
-     *     security={{"bearerAuth":{}}}
-     * )
-     */
     public function destroy(string $id)
     {
         return response()->json([
@@ -164,9 +182,18 @@ class UserController extends Controller
      */
     /**
      * @OA\Get(
-     *     path="/api/v1/user/orders/{id}",
+     *     path="/user/orders/{id}",
+     *     tags={"User"},
      *     summary="Get user's orders listing",
-     *     @OA\Response(response="200", description="Success"),
+     *     description="Get user's orders listing",
+     *     @OA\Response(
+     *        response=200,
+     *        description="Orders listed successfully.",
+     *        @OA\JsonContent(
+     *          @OA\Property(property="status_code", type="integer", example="200"),
+     *          @OA\Property(property="data", type="object")
+     *        ),
+     *     ),
      *     security={{"bearerAuth":{}}}
      * )
      */

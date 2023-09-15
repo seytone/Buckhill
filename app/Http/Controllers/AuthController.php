@@ -20,8 +20,10 @@ class AuthController extends Controller
      */
     /**
      * @OA\Post(
-     *     path="/api/v1/auth/login",
+     *     path="/auth/login",
+     *     tags={"Authentication"},
      *     summary="Authenticate user and generate JWT token",
+     *     description="Authenticate user and generate JWT token",
      *     @OA\Parameter(
      *         name="email",
      *         in="query",
@@ -36,8 +38,22 @@ class AuthController extends Controller
      *         required=true,
      *         @OA\Schema(type="string")
      *     ),
-     *     @OA\Response(response="200", description="Login successful"),
-     *     @OA\Response(response="401", description="Invalid credentials")
+     *     @OA\Response(
+     *        response=200,
+     *        description="User logged-in successfully.",
+     *        @OA\JsonContent(
+     *          @OA\Property(property="status_code", type="integer", example="200"),
+     *          @OA\Property(property="data", type="object")
+     *        ),
+     *     ),
+     *     @OA\Response(
+     *        response=401,
+     *        description="Validation errors.",
+     *        @OA\JsonContent(
+     *          @OA\Property(property="status_code", type="integer", example="401"),
+     *          @OA\Property(property="data", type="object")
+     *        ),
+     *     ),
      * )
      */
     public function login(Request $request)
@@ -86,9 +102,18 @@ class AuthController extends Controller
      */
     /**
      * @OA\Get(
-     *     path="/api/v1/auth/logout",
+     *     path="/auth/logout",
+     *     tags={"Authentication"},
      *     summary="Log-out user and invalidate JWT token",
-     *     @OA\Response(response="200", description="Success"),
+     *     description="Log-out user and invalidate JWT token",
+     *     @OA\Response(
+     *        response=200,
+     *        description="User logged out successful.",
+     *        @OA\JsonContent(
+     *          @OA\Property(property="status_code", type="integer", example="200"),
+     *          @OA\Property(property="data", type="object")
+     *        ),
+     *     ),
      *     security={{"bearerAuth":{}}}
      * )
      */

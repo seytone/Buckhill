@@ -14,9 +14,18 @@ class AdminController extends Controller
      */
     /**
      * @OA\Get(
-     *     path="/api/v1/admin",
+     *     path="/admin",
+     *     tags={"Admin"},
      *     summary="Get admin listing",
-     *     @OA\Response(response="200", description="Success"),
+     *     description="Get admin listing",
+     *     @OA\Response(
+     *        response=200,
+     *        description="Admins fetched successfully.",
+     *        @OA\JsonContent(
+     *          @OA\Property(property="status_code", type="integer", example="200"),
+     *          @OA\Property(property="data", type="object")
+     *        ),
+     *     ),
      *     security={{"bearerAuth":{}}}
      * )
      */
@@ -36,8 +45,10 @@ class AdminController extends Controller
      */
     /**
      * @OA\Post(
-     *     path="/api/v1/admin,
+     *     path="/admin",
+     *     tags={"Admin"},
      *     summary="Create a new admin",
+     *     description="Create a new admin",
      *     @OA\Parameter(
      *         name="first_name",
      *         in="query",
@@ -87,8 +98,23 @@ class AdminController extends Controller
      *         required=true,
      *         @OA\Schema(type="string")
      *     ),
-     *     @OA\Response(response="201", description="Admin created successfully"),
-     *     @OA\Response(response="422", description="Validation errors")
+     *     @OA\Response(
+     *        response=200,
+     *        description="Admin created successfully.",
+     *        @OA\JsonContent(
+     *          @OA\Property(property="status_code", type="integer", example="200"),
+     *          @OA\Property(property="data", type="object")
+     *        ),
+     *     ),
+     *     @OA\Response(
+     *        response=403,
+     *        description="Validation errors.",
+     *        @OA\JsonContent(
+     *          @OA\Property(property="status_code", type="integer", example="403"),
+     *          @OA\Property(property="data", type="object")
+     *        ),
+     *     ),
+     *     security={{"bearerAuth":{}}}
      * )
      */
     public function store(Request $request)
@@ -132,9 +158,18 @@ class AdminController extends Controller
      */
     /**
      * @OA\Get(
-     *     path="/api/v1/admin/{id}",
+     *     path="/admin/{id}",
+     *     tags={"Admin"},
      *     summary="Get logged-in admin details",
-     *     @OA\Response(response="200", description="Success"),
+     *     description="Get logged-in admin details",
+     *     @OA\Response(
+     *        response=200,
+     *        description="Admin fetched successfully.",
+     *        @OA\JsonContent(
+     *          @OA\Property(property="status_code", type="integer", example="200"),
+     *          @OA\Property(property="data", type="object")
+     *        ),
+     *     ),
      *     security={{"bearerAuth":{}}}
      * )
      */
@@ -186,9 +221,18 @@ class AdminController extends Controller
      */
     /**
      * @OA\Get(
-     *     path="/api/v1/admin/user-listing",
+     *     path="/admin/user-listing",
+     *     tags={"Admin"},
      *     summary="Get user listing",
-     *     @OA\Response(response="200", description="Success"),
+     *     description="Get user listing",
+     *     @OA\Response(
+     *        response=200,
+     *        description="Users fetched successfully.",
+     *        @OA\JsonContent(
+     *          @OA\Property(property="status_code", type="integer", example="200"),
+     *          @OA\Property(property="data", type="object")
+     *        ),
+     *     ),
      *     security={{"bearerAuth":{}}}
      * )
      */
@@ -209,8 +253,10 @@ class AdminController extends Controller
      */
     /**
      * @OA\Put(
-     *     path="/api/v1/admin/user-edit/{id}",
+     *     path="/admin/user-edit/{id}",
+     *     tags={"Admin"},
      *     summary="Update the given user",
+     *     description="Update the given user",
      *     @OA\Parameter(
      *         name="first_name",
      *         in="query",
@@ -246,8 +292,23 @@ class AdminController extends Controller
      *         required=true,
      *         @OA\Schema(type="string")
      *     ),
-     *     @OA\Response(response="201", description="User updated successfully"),
-     *     @OA\Response(response="422", description="Validation errors")
+     *     @OA\Response(
+     *        response=200,
+     *        description="User updated successfully.",
+     *        @OA\JsonContent(
+     *          @OA\Property(property="status_code", type="integer", example="200"),
+     *          @OA\Property(property="data", type="object")
+     *        ),
+     *     ),
+     *     @OA\Response(
+     *        response=403,
+     *        description="Validation errors.",
+     *        @OA\JsonContent(
+     *          @OA\Property(property="status_code", type="integer", example="403"),
+     *          @OA\Property(property="data", type="object")
+     *        ),
+     *     ),
+     *     security={{"bearerAuth":{}}}
      * )
      */
     public function userEdit(Request $request, string $id)
@@ -288,11 +349,27 @@ class AdminController extends Controller
      */
     /**
      * @OA\Delete(
-     *     path="/api/v1/admin/user-delete/{id}",
-     *     summary="Remove the given user",
-     *     @OA\Response(response="200", description="Success"),
-     *     security={{"bearerAuth":{}}}
-     * )
+     *    path="/admin/user-delete/{id}",
+     *    tags={"Admin"},
+     *    summary="Delete User",
+     *    description="Delete User",
+     *    @OA\Parameter(
+     *        name="id",
+     *        in="path",
+     *        description="Id of User",
+     *        required=true,
+     *        @OA\Schema(type="string")
+     *    ),
+     *    @OA\Response(
+     *        response=200,
+     *        description="Success",
+     *        @OA\JsonContent(
+     *          @OA\Property(property="status_code", type="integer", example="200"),
+     *          @OA\Property(property="data", type="object")
+     *        ),
+     *    ),
+     *    security={{"bearerAuth":{}}}
+     *  )
      */
     public function userDelete(string $id)
     {

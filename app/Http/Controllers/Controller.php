@@ -8,8 +8,9 @@ use Illuminate\Routing\Controller as BaseController;
 
 /**
  * @OA\Info(
- *    title="Swagger with Laravel",
  *    version="1.0.0",
+ *    title="Buckhill Pet Shop API Documentation",
+ *    description="This is a sample API documentation for a pet shop.",
  * )
  * @OA\SecurityScheme(
  *     type="http",
@@ -17,6 +18,9 @@ use Illuminate\Routing\Controller as BaseController;
  *     scheme="bearer",
  *     bearerFormat="JWT"
  * )
+ * @OA\Server(
+ *     url="/api/v1",
+ * ),
 
  */
 class Controller extends BaseController

@@ -1,4 +1,4 @@
-<p align="center"><a href="https://blankfactor.com/about/" target="_blank"><img src="https://cdn.softwarereviews.com/production/logos/offerings/1146/large/285aeae5-1d2f-40ea-b5d0-2b4ce6e94a4ebuckhill_logo.png" width="300"></a></p>
+<p align="center"><a href="https://www.buckhill.co.uk/about" target="_blank"><img src="https://cdn.softwarereviews.com/production/logos/offerings/1146/large/285aeae5-1d2f-40ea-b5d0-2b4ce6e94a4ebuckhill_logo.png" width="300"></a></p>
 
 ## The Project
 
@@ -23,7 +23,7 @@ To run this project, just follow the steps below:
 
 ## Instructions to test
 
-You can use Postman in order to test the API methods created for the task. So, just open Postman and import the Buckhill Backend-Task.postman_collection.json file located in the root folder, and run each endpoint. Or, just take a look at the Swagger documentation attached to the project.
+You can use Postman in order to test the API methods created for the task. So, just open Postman and import the Buckhill Backend-Task.postman_collection.json file located in the root folder, and run each endpoint. Or, just take a look at the Swagger documentation attached to the project by going to http://127.0.0.1:8000/api/documentation.
 
 ## Technical Specifications
 
