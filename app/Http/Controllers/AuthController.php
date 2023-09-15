@@ -18,6 +18,28 @@ class AuthController extends Controller
     /**
      * Login an user using credentials.
      */
+    /**
+     * @OA\Post(
+     *     path="/api/v1/auth/login",
+     *     summary="Authenticate user and generate JWT token",
+     *     @OA\Parameter(
+     *         name="email",
+     *         in="query",
+     *         description="User's email",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="password",
+     *         in="query",
+     *         description="User's password",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(response="200", description="Login successful"),
+     *     @OA\Response(response="401", description="Invalid credentials")
+     * )
+     */
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -55,12 +77,20 @@ class AuthController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => $e->getMessage(),
-            ], 500);
+            ], 401);
         }
     }
 
     /**
      * Logout an user.
+     */
+    /**
+     * @OA\Get(
+     *     path="/api/v1/auth/logout",
+     *     summary="Log-out user and invalidate JWT token",
+     *     @OA\Response(response="200", description="Success"),
+     *     security={{"bearerAuth":{}}}
+     * )
      */
     public function logout(Request $request)
     {

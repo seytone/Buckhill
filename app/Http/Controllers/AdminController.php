@@ -12,6 +12,14 @@ class AdminController extends Controller
     /**
      * Display a listing of the resource.
      */
+    /**
+     * @OA\Get(
+     *     path="/api/v1/admin",
+     *     summary="Get admin listing",
+     *     @OA\Response(response="200", description="Success"),
+     *     security={{"bearerAuth":{}}}
+     * )
+     */
     public function index()
     {
         $admins = User::where('is_admin', 1)->paginate(20);
@@ -25,6 +33,63 @@ class AdminController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     */
+    /**
+     * @OA\Post(
+     *     path="/api/v1/admin,
+     *     summary="Create a new admin",
+     *     @OA\Parameter(
+     *         name="first_name",
+     *         in="query",
+     *         description="Admin's first name",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="last_name",
+     *         in="query",
+     *         description="Admin's last name",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="email",
+     *         in="query",
+     *         description="Admin's email",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="address",
+     *         in="query",
+     *         description="Admin's address",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="phone_number",
+     *         in="query",
+     *         description="Admin's phone",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="password",
+     *         in="query",
+     *         description="Admin's password",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="password_confirm",
+     *         in="query",
+     *         description="Admin's password confirmation",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(response="201", description="Admin created successfully"),
+     *     @OA\Response(response="422", description="Validation errors")
+     * )
      */
     public function store(Request $request)
     {
@@ -64,6 +129,14 @@ class AdminController extends Controller
 
     /**
      * Display the specified resource.
+     */
+    /**
+     * @OA\Get(
+     *     path="/api/v1/admin/{id}",
+     *     summary="Get logged-in admin details",
+     *     @OA\Response(response="200", description="Success"),
+     *     security={{"bearerAuth":{}}}
+     * )
      */
     public function show(string $id)
     {
@@ -111,6 +184,14 @@ class AdminController extends Controller
     /**
      * Display a listing of the resource.
      */
+    /**
+     * @OA\Get(
+     *     path="/api/v1/admin/user-listing",
+     *     summary="Get user listing",
+     *     @OA\Response(response="200", description="Success"),
+     *     security={{"bearerAuth":{}}}
+     * )
+     */
     public function userListing()
     {
         $users = User::where('is_admin', 0)->paginate(20);
@@ -125,6 +206,49 @@ class AdminController extends Controller
 
     /**
      * Update the specified resource in storage.
+     */
+    /**
+     * @OA\Put(
+     *     path="/api/v1/admin/user-edit/{id}",
+     *     summary="Update the given user",
+     *     @OA\Parameter(
+     *         name="first_name",
+     *         in="query",
+     *         description="User's first name",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="last_name",
+     *         in="query",
+     *         description="User's last name",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="email",
+     *         in="query",
+     *         description="User's email",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="address",
+     *         in="query",
+     *         description="User's address",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="phone_number",
+     *         in="query",
+     *         description="User's phone",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(response="201", description="User updated successfully"),
+     *     @OA\Response(response="422", description="Validation errors")
+     * )
      */
     public function userEdit(Request $request, string $id)
     {
@@ -161,6 +285,14 @@ class AdminController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     */
+    /**
+     * @OA\Delete(
+     *     path="/api/v1/admin/user-delete/{id}",
+     *     summary="Remove the given user",
+     *     @OA\Response(response="200", description="Success"),
+     *     security={{"bearerAuth":{}}}
+     * )
      */
     public function userDelete(string $id)
     {

@@ -1,4 +1,4 @@
-<p align="center"><a href="https://blankfactor.com/about/" target="_blank"><img src="data:image/webp;base64,UklGRngFAABXRUJQVlA4TGsFAAAvG8EeEIegIG0Dpv5N74qY//kXCKRwg0tIAw+DByzZtqpGB7jCleeZ/3RFJK2JVH9F9H8C8M9YzcqQtDJQ/crQ5haGZVkYyNwXhie3dWEam1kWiGReF45kWBaoJN2yCCSrWRWWJOOqQCJJvyr8odlFgUaSZVXEA3VRuA5lTaB2mlkTocO0JmyPUXVzywGp123RLQY/RDLLQrAiV8ho1oBNnFvdEkCdxOaXgJ9FRrMAUKaxbgvAtWlktq8P/gNkkrcH/wlS3x5cnhctFuCk5A1WoLtWkgpWoYyIiGAthhGsx7g06sqwXBl+aZSVYbky4sqwXBl5LC8G5W1IUu5EknJJSXKGCXm3HSWZO0qSj+d5UX+TSLI8kBGNORey5LyrmAmBV/1vkknyadxeeLlGGbOJl+07MqFyco3edswWeb3iN3GN9A9iY+NnS86NU/cfBRCDxzDaeFf3s5w/gFTetuIOTlXVDTgRsWciInbAbHrczAQ5DomqBjdgRcQ9g9l543ADV9gt7iST1DOS1BOjjafpUiTJOOAbu3U7UZL5EVzhjZv5e6HxfPuUKxysV5QkI07KzkH/MNJ4Z8XfG272M6ZyVC94kkw4axxt5lE8b11xiyRWQiPJ+JmdJJuKkZBoxzxJFjNAUi2wVZIMT+J5b7lFwNE1kjSfsCTZHIZPPEkWgyHB0R7yg3jeW3GHir4e/CfCwWPGRpLFYCihn0iW5/C8d8Yt9hN7iJ/IJBtmuEayGoxtJ0qSjyG8dzH32E5QSeZPkGSesRWSzeGCeSLX7lUM7iFn+S/ojEqSCVfwQKbw1tngO/X98+289Y5b/on6R5p7OuGdq+AByiSOxSlpI8liHq7eKRrcSE8MScZDHXIDlWSdEQElyfhw/XwLj9seyok/hEMjmU72gUiSMkEAFJL0v0kT3IvSqwd7yCRpO6YNbIdiTuyYbSSb+0L5crnWHO7WNgAmkWTGcT8UC0AqB1BJsggA60sew0aSxXyb3eC61TbWHG5H1pzZdR17IEuu7PfkcH4FO0nG79IEc92Yh9ysRQ569PdOt+0D8J8whST9N2kOYZ+COOLh880iQus1j/P9rDg3AqkD+xW4RrK5L+IQmedsAxGOt1JVB5iQc07BYNTuhSzJA1BVOQG2mHPOKVgcVVVtD5uqqgCiqnomqqodUVXfEVX1HVFVvUtA5Cw5y7DtXj/3QEbgtHDSjCl8Z9ZxXjoRZL4zRZln2FdEvrNmhPN8L8PxpSncB1KnWZi3ZoA2r3U8gPLOIoA0beMxAcD+zhyAMG0/NHPwr6wAgEyrh4CjfWXhgFmOJDP67Y3ZTp6kB3uSXlhBVycVkopTfWGhJ3MsyWrO5IXZnpnjSW4YfF8Vp2VKIjNG8+vaz/YZhqQd2l/XduZnbKRieHtd5szOiGxmzL6tgsE6oTHgYn1Z+0i8Jqy4ml6WHwnXdm6XwsuyI+5azbjs3lXDcLtiKdfwrvJYuhIyJuZXpWN6pcgMfVXbmFwwCTO3V+XGcMHbKeZV4aKOCebGF6VX3Nhs/6L8mBVRjTnnxqs157yrihjAvijpGAl7LvybJWsQ85Lg/J4b/37L6t27MaK5cWbJSVXlaNA1clTVlHOn27LKS5G98HLLu4rgD4ronhv7WeVl2JB4tcQgBn/cSIiFx5a8fQtuLxxvKQhuLCFVkizB/n5urxxuKTg8oPWxkSzB/nI2VA4XdXhQFwrJ5H81nzmcvMHjGp/Ittvfy+6No8kbPLTxicz+t5LE0eINHt34zOrNz+QrB+tu8QWt1qbmFzLaOJg3fM0tNTW/jtHG87ZbfFWrNfw0RhvPazD4usZn+VmMNp5Xjy/t1fwo/zYBAA==" width="300"></a></p>
+<p align="center"><a href="https://blankfactor.com/about/" target="_blank"><img src="https://cdn.softwarereviews.com/production/logos/offerings/1146/large/285aeae5-1d2f-40ea-b5d0-2b4ce6e94a4ebuckhill_logo.png" width="300"></a></p>
 
 ## The Project
 
@@ -8,6 +8,23 @@ This task involves demonstrating my backend skills by developing an API for a Pe
 
 Buckhill was born of a desire to help organisations achieve greater success by partnering with them to create an innovative digital environment. They are a highly motivated and proficient team of technology experts with considerable experience in solving real-world IT problems and implementing best-of-breed solutions.
 
+## Instructions to run
+
+To run this project, just follow the steps below:
+
+- Clone the repo [https://github.com/seytone/Buckhill.git](https://github.com/seytone/Buckhill.git) to download to your local.
+- Open a Linux or WSL2 terminal
+- Run: git clone https://github.com/seytone/Buckhill.git
+- Run: cd PetShopAPI
+- Run: composer install
+- Run: php artisan migrate
+- Run: php artisan db:seed
+- Run: php artisan serve
+
+## Instructions to test
+
+You can use Postman in order to test the API methods created for the task. So, just open Postman and import the Buckhill Backend-Task.postman_collection.json file located in the root folder, and run each endpoint. Or, just take a look at the Swagger documentation attached to the project.
+
 ## Technical Specifications
 
-This project was build using Laravel v10.2.6 and PHP v8.2.10
+This project was build using Laravel v10.22.0 and PHP v8.2.10

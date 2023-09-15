@@ -25,6 +25,14 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
+    /**
+     * @OA\Get(
+     *     path="/api/v1/user/{id}",
+     *     summary="Get logged-in user details",
+     *     @OA\Response(response="200", description="Success"),
+     *     security={{"bearerAuth":{}}}
+     * )
+     */
     public function show(Request $request, string $id)
     {
         // Check if the user is trying to see another user profile.
@@ -46,6 +54,49 @@ class UserController extends Controller
 
     /**
      * Update the specified resource in storage.
+     */
+    /**
+     * @OA\Put(
+     *     path="/api/v1/user/{id}",
+     *     summary="Update the given user",
+     *     @OA\Parameter(
+     *         name="first_name",
+     *         in="query",
+     *         description="User's first name",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="last_name",
+     *         in="query",
+     *         description="User's last name",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="email",
+     *         in="query",
+     *         description="User's email",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="address",
+     *         in="query",
+     *         description="User's address",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="phone_number",
+     *         in="query",
+     *         description="User's phone",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(response="201", description="User updated successfully"),
+     *     @OA\Response(response="422", description="Validation errors")
+     * )
      */
     public function update(Request $request, string $id)
     {
@@ -91,6 +142,14 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+    /**
+     * @OA\Delete(
+     *     path="/api/v1/admin/user/{id}",
+     *     summary="Remove the given user",
+     *     @OA\Response(response="200", description="Success"),
+     *     security={{"bearerAuth":{}}}
+     * )
+     */
     public function destroy(string $id)
     {
         return response()->json([
@@ -102,6 +161,14 @@ class UserController extends Controller
 
     /**
      * Get orders of a user.
+     */
+    /**
+     * @OA\Get(
+     *     path="/api/v1/user/orders/{id}",
+     *     summary="Get user's orders listing",
+     *     @OA\Response(response="200", description="Success"),
+     *     security={{"bearerAuth":{}}}
+     * )
      */
     public function orders(Request $request, string $id)
     {

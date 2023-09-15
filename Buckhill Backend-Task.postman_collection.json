@@ -1,0 +1,452 @@
+{
+	"info": {
+		"_postman_id": "45122184-afe5-4347-8bae-54eecdf8858a",
+		"name": "Buckhill Backend-Task",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2772741"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"postman.setEnvironmentVariable(\"token\", JSON.parse(responseBody).authorization.access_token);\r",
+									"pm.environment.set(\"token\", JSON.parse(responseBody).authorization.access_token);\r",
+									"pm.globals.set(\"token\", JSON.parse(responseBody).authorization.access_token);\r",
+									"pm.collectionVariables.set(\"token\", JSON.parse(responseBody).authorization.access_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "jecheverri@buckhill.co.uk",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "jecheverri",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/auth/login",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiIxMjcuMC4wLjEiLCJzdWIiOiIxZTBhYzgzOS0zMjBkLTM0MzEtOThkYy0zMTIxYmZlMGYxYzIiLCJqdGkiOiIxUFV1MGRSWnRpTElSYUdaaWxhKzd3PT0iLCJpYXQiOjE2OTQ3NzUxNzUsImV4cCI6MTY5NDc3ODc3NSwiZGF0YSI6eyJ1c2VyX3V1aWQiOiIxZTBhYzgzOS0zMjBkLTM0MzEtOThkYy0zMTIxYmZlMGYxYzIiLCJ1c2VyX2VtYWlsIjoiamVjaGV2ZXJyaUBidWNraGlsbC5jby51ayIsInVzZXJfaXNfYWRtaW4iOjF9fQ.IcYL7-YynVD0WrWJk8NjOxioNuolKzZ8YvqAEnfC1AK6Syh4onRfBy5-YHXxBfl5jFJttfNcE3W9eQbyKo3Bdz37uF8h1r714K3EQqy9Hx_qCF89ty1LzEZeJ9bX87GWP6kl-ZW125wjrvn8b8YXwGMZecxMX22xMu2quEGu1s_UlNoebYP-mRoR8x7YaLIGm0-jxeI0g6LpygG1jIRh41O9DmlZoGuOIeYgzRuSqg-O66m7SRglXE9EDwMXXaxBt6oksofnDif8hl5JDASEbKMOYRBa_lYF5eKgAbXHgGZQ33W-kOOYlu3qQZYR6kSDHZHpEHFYmxBQfMTzMWuj0UdEZDOx26F_cjTaMMOyg0LDrgf2_q6s7R7A_Yg16jv6Ynp40YwPMoTZv7dkh3m7qL2rfnC7e0QINkW2pXN2ms7rdDpEEttj3KfCPTGGdEaX1YbgJMFtNW6Tq_XXxdWa3Jw8m9zg880XaKc_tphdfGagkOOXjdguty400Rmqwdx7EYHmVpi1g8Vy0e1KuU86orWXLXuYFdnvE5KtvIGJLD2ArApg1B6Nll6tWAcPeZ_qlcm3nsCZ7aVOBlg1qTAzK4KLoA8gabRCp9sKgVpbuaXL9b2OWVwwdHBC1ux_bv60CBKUwKEOHEt6gYcG0Cu6aXVc6notf6GBcMr-r867agg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/auth/logout",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Admin List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/admin",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Edit",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/admin/1bb2fdb4-8681-4b9c-b7a6-17332ef26dec",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"1bb2fdb4-8681-4b9c-b7a6-17332ef26dec"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "first_name",
+									"value": "Lorem",
+									"type": "text"
+								},
+								{
+									"key": "last_name",
+									"value": "Ipsum",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "loremipsum@test.com",
+									"type": "text"
+								},
+								{
+									"key": "address",
+									"value": "Lorem Ipsum Dolor Sit Amet",
+									"type": "text"
+								},
+								{
+									"key": "phone_number",
+									"value": "123456789",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "loremipsum",
+									"type": "text"
+								},
+								{
+									"key": "password_confirm",
+									"value": "loremipsum",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/admin",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/admin/9f459126-5c64-457a-9871-d32014be5bbc",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"9f459126-5c64-457a-9871-d32014be5bbc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin User Listing",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/admin/user-listing",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"user-listing"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin User Edit",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "first_name",
+									"value": "Lorem",
+									"type": "text"
+								},
+								{
+									"key": "last_name",
+									"value": "Ipsum",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "loremipsum@test.net",
+									"type": "text"
+								},
+								{
+									"key": "address",
+									"value": "Lorem Ipsum Dolor Sit Amet",
+									"type": "text"
+								},
+								{
+									"key": "phone_number",
+									"value": "123456789",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/admin/user-edit/237b478a-9ea2-3101-aa93-15dd8441c88e",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"user-edit",
+								"237b478a-9ea2-3101-aa93-15dd8441c88e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin User Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/admin/user-delete/237b478a-9ea2-3101-aa93-15dd8441c88e",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"user-delete",
+								"237b478a-9ea2-3101-aa93-15dd8441c88e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/admin/9f459126-5c64-457a-9871-d32014be5bbc",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"9f459126-5c64-457a-9871-d32014be5bbc"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Users Order List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/user/orders/515540ee-ab97-375e-be3e-04032d9495df",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"orders",
+								"515540ee-ab97-375e-be3e-04032d9495df"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Users Details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/user/515540ee-ab97-375e-be3e-04032d9495df",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"515540ee-ab97-375e-be3e-04032d9495df"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
