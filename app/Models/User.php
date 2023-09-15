@@ -54,6 +54,16 @@ class User extends Authenticatable
     ];
 
     /**
+     * Generate a UUID for the user.
+     *
+     * @return string
+     */
+    public function generateUuid()
+    {
+        return (string) \Illuminate\Support\Str::uuid();
+    }
+
+    /**
      * A user may have many orders.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -61,5 +71,15 @@ class User extends Authenticatable
     public function orders()
     {
         return $this->hasMany(Order::class);
+    }
+
+    /**
+     * A user may have one JWT token.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function token()
+    {
+        return $this->hasOne(JwtToken::class);
     }
 }

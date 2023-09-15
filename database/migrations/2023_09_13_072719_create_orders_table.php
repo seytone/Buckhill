@@ -24,8 +24,8 @@ return new class extends Migration
             $table->timestamps();
             $table->timestamp('shipped_at')->nullable();
 
-            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('restrict');
-            $table->foreign('order_status_id')->references('id')->on('order_statuses')->onUpdate('cascade')->onDelete('restrict');
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('order_status_id')->references('id')->on('order_statuses')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('payment_id')->references('id')->on('payments')->onUpdate('cascade')->onDelete('set null');
         });
     }

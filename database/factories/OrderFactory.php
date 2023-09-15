@@ -32,6 +32,8 @@ class OrderFactory extends Factory
 
         $status = OrderStatus::all()->random();
         $payment = ($status->title == 'paid' || $status->title == 'shipped') ? Payment::all()->random()->id : null;
+        $amount = fake()->randomFloat(2, 20, 1000);
+        $fee = $amount > 500 ? 0 : 15;
 
         return [
             'user_id' => User::factory(),
@@ -43,8 +45,8 @@ class OrderFactory extends Factory
                 'billing' => fake()->address(),
                 'shipping' => fake()->address(),
             ],
-            'delivery_fee' => fake()->randomFloat(2, 0, 10),
-            'amount' => fake()->randomFloat(2, 20, 1000),
+            'amount' => $amount,
+            'delivery_fee' => $fee,
             'shipped_at' => $status->title == 'shipped' ? fake()->dateTimeThisYear() : null,
         ];
     }

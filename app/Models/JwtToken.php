@@ -35,4 +35,12 @@ class JwtToken extends Model
         'last_used_at' => 'datetime',
         'refreshed_at' => 'datetime',
     ];
+
+    /**
+     * Get the user that owns the JWT token.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 use App\Models\User;
 
@@ -27,14 +28,21 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255|',
             'email' => 'required|string|email|max:255|unique:users',
             'address' => 'required|string|max:255',
             'phone_number' => 'required|string|max:255',
-            'password' => 'required|string|min:8|confirmed',
+            'password' => 'required|string|min:5',
+            'password_confirm' => 'required|same:password',
         ]);
+
+        if ($errors = $validator->errors()->all())
+            return response()->json([
+                'success' => false,
+                'message' => $errors,
+            ], 403);
 
         $user = new User;
         $user->uuid = $user->generateUuid();
@@ -81,27 +89,11 @@ class AdminController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255|',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
-            'address' => 'required|string|max:255',
-            'phone_number' => 'required|string|max:255',
-        ]);
-
-        User::where('is_admin', 1)->where('uuid', $id)->update([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
-            'address' => $request->address,
-            'phone_number' => $request->phone_number,
-        ]);
-
         return response()->json([
-            'success' => true,
-            'message' => 'Admin updated successfully.',
+            'success' => false,
+            'message' => 'Action not allowed.',
             'data' => null,
-        ], 200);
+        ], 405);
     }
 
     /**
@@ -109,13 +101,11 @@ class AdminController extends Controller
      */
     public function destroy(string $id)
     {
-        User::where('is_admin', 1)->where('uuid', $id)->delete();
-
         return response()->json([
-            'success' => true,
-            'message' => 'Admin deleted successfully.',
+            'success' => false,
+            'message' => 'Action not allowed.',
             'data' => null,
-        ], 200);
+        ], 405);
     }
 
     /**
@@ -124,6 +114,7 @@ class AdminController extends Controller
     public function userListing()
     {
         $users = User::where('is_admin', 0)->paginate(20);
+        $users->appends(['sort' => 'first_name']);
 
         return response()->json([
             'success' => true,
@@ -137,15 +128,23 @@ class AdminController extends Controller
      */
     public function userEdit(Request $request, string $id)
     {
-        $request->validate([
+        $user = User::where('is_admin', 0)->where('uuid', $id)->first();
+
+        $validator = Validator::make($request->all(), [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255|',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
             'address' => 'required|string|max:255',
             'phone_number' => 'required|string|max:255',
         ]);
 
-        User::where('is_admin', 0)->where('uuid', $id)->update([
+        if ($errors = $validator->errors()->all())
+            return response()->json([
+                'success' => false,
+                'message' => $errors,
+            ], 403);
+
+        $user->update([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
@@ -156,6 +155,20 @@ class AdminController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'User updated successfully.',
+            'data' => $user,
+        ], 200);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function userDelete(string $id)
+    {
+        User::where('is_admin', 0)->where('uuid', $id)->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'User deleted successfully.',
             'data' => null,
         ], 200);
     }

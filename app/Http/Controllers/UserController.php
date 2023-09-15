@@ -3,62 +3,38 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 use App\Models\User;
+use App\Models\Order;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $users = User::where('is_admin', 0)->paginate(20);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Users fetched successfully.',
-            'data' => $users,
-        ], 200);
-    }
-
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255|',
-            'email' => 'required|string|email|max:255|unique:users',
-            'address' => 'required|string|max:255',
-            'phone_number' => 'required|string|max:255',
-            'password' => 'required|string|min:8|confirmed',
-        ]);
-
-        $user = new User;
-        $user->uuid = $user->generateUuid();
-        $user->first_name = $request->first_name;
-        $user->last_name = $request->last_name;
-        $user->is_admin = 0;
-        $user->email = $request->email;
-        $user->address = $request->address;
-        $user->phone_number = $request->phone_number;
-        $user->password = bcrypt($request->password);
-        $user->save();
-
         return response()->json([
-            'success' => true,
-            'message' => 'User created successfully.',
-            'data' => $user,
-        ], 201);
+            'success' => false,
+            'message' => 'Action not allowed.',
+            'data' => null,
+        ], 405);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request, string $id)
     {
+        // Check if the user is trying to see another user profile.
+        if ($request->user->uuid !== $id)
+            return response()->json([
+                'success' => false,
+                'message' => 'Action not allowed.',
+                'data' => null,
+            ], 405);
+
         $user = User::where('is_admin', 0)->where('uuid', $id)->first();
 
         return response()->json([
@@ -73,15 +49,31 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $request->validate([
+        // Check if the user is trying to edit another user profile.
+        if ($request->user->uuid !== $id)
+            return response()->json([
+                'success' => false,
+                'message' => 'Action not allowed.',
+                'data' => null,
+            ], 405);
+
+        $user = User::where('is_admin', 0)->where('uuid', $id)->first();
+
+        $validator = Validator::make($request->all(), [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255|',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
             'address' => 'required|string|max:255',
             'phone_number' => 'required|string|max:255',
         ]);
 
-        User::where('is_admin', 0)->where('uuid', $id)->update([
+        if ($errors = $validator->errors()->all())
+            return response()->json([
+                'success' => false,
+                'message' => $errors,
+            ], 403);
+
+        $user->update([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
@@ -92,7 +84,7 @@ class UserController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'User updated successfully.',
-            'data' => null,
+            'data' => $user,
         ], 200);
     }
 
@@ -101,21 +93,33 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        User::where('is_admin', 0)->where('uuid', $id)->delete();
-
         return response()->json([
-            'success' => true,
-            'message' => 'User deleted successfully.',
+            'success' => false,
+            'message' => 'Action not allowed.',
             'data' => null,
-        ], 200);
+        ], 405);
     }
 
     /**
      * Get orders of a user.
      */
-    public function orders(Request $request)
+    public function orders(Request $request, string $id)
     {
-        //
+        // Check if the user is trying to see another user orders.
+        if ($request->user->uuid !== $id)
+            return response()->json([
+                'success' => false,
+                'message' => 'Action not allowed.',
+                'data' => null,
+            ], 405);
+
+        $orders = Order::where('user_id', $request->user->id)->paginate(20);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Orders fetched successfully.',
+            'data' => $orders,
+        ], 200);
     }
 
     /**
