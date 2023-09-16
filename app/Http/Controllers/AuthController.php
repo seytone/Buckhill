@@ -54,9 +54,25 @@ class AuthController extends Controller
      *          @OA\Property(property="data", type="object")
      *        ),
      *     ),
+     *     @OA\Response(
+     *        response=404,
+     *        description="User not found.",
+     *        @OA\JsonContent(
+     *          @OA\Property(property="status_code", type="integer", example="403"),
+     *          @OA\Property(property="data", type="object")
+     *        ),
+     *     ),
+     *     @OA\Response(
+     *        response=500,
+     *        description="Failed to generate access token.",
+     *        @OA\JsonContent(
+     *          @OA\Property(property="status_code", type="integer", example="403"),
+     *          @OA\Property(property="data", type="object")
+     *        ),
+     *     ),
      * )
      */
-    public function login(Request $request)
+    public function login(Request $request) : object
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|string|email|max:255|exists:users',
@@ -75,26 +91,28 @@ class AuthController extends Controller
                 'message' => 'Invalid credentials.',
             ], 401);
 
-        try {
-            $user = Auth::user();
-            $token = $this->generateAccessToken($user);
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Login successful.',
-                'authorization' => [
-                    'type' => 'bearer',
-                    'access_token' => $token->access_token,
-                    'expires_at' => $token->expires_at,
-                    'user' => $user,
-                ]
-            ], 200);
-        } catch(Exception $e) {
+        if (! $user = Auth::user())
             return response()->json([
                 'success' => false,
-                'message' => $e->getMessage(),
-            ], 401);
-        }
+                'message' => 'User not found.',
+            ], 404);
+
+        if (! $token = $this->generateAccessToken($user))
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to generate access token.',
+            ], 500);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Login successful.',
+            'authorization' => [
+                'type' => 'bearer',
+                'access_token' => $token->access_token ?? null,
+                'expires_at' => $token->expires_at ?? null,
+                'user' => $user,
+            ]
+        ], 200);
     }
 
     /**
@@ -114,11 +132,25 @@ class AuthController extends Controller
      *          @OA\Property(property="data", type="object")
      *        ),
      *     ),
+     *     @OA\Response(
+     *        response=404,
+     *        description="Token not found.",
+     *        @OA\JsonContent(
+     *          @OA\Property(property="status_code", type="integer", example="403"),
+     *          @OA\Property(property="data", type="object")
+     *        ),
+     *     ),
      *     security={{"bearerAuth":{}}}
      * )
      */
-    public function logout(Request $request)
+    public function logout(Request $request) : object
     {
+        if (! $request->bearerToken())
+            return response()->json([
+                'success' => false,
+                'message' => 'Token not found.',
+            ], 404);
+
         JwtToken::where('unique_id', md5($request->bearerToken()))->delete();
 
         return response()->json([
@@ -130,8 +162,11 @@ class AuthController extends Controller
     /**
      * Generate an user token.
      */
-    protected function generateAccessToken($user) : object
+    protected function generateAccessToken(User $user) : object | null
     {
+        if (! $user instanceof User)
+            return null;
+
         $timestamp = new DateTimeImmutable();
         $issued_at = $timestamp->getTimestamp();
         $expires_at = $timestamp->modify('+3 hour')->getTimestamp();

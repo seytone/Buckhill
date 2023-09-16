@@ -22,7 +22,7 @@ class VerifyJWT
     {
         try {
             // check if header exists
-            if(empty($_SERVER['HTTP_AUTHORIZATION']))
+            if (empty($_SERVER['HTTP_AUTHORIZATION']))
                 throw new Exception('authorization header not found');
 
             // check if bearer token exists
@@ -34,14 +34,14 @@ class VerifyJWT
                 throw new Exception('could not extract token');
 
             // use public key to decode token
-            if (! JWT::decode($jwt, new Key(file_get_contents(config('jwt.keys.public')), config('jwt.algorithm'))))
+            if (! is_object(JWT::decode($jwt, new Key(file_get_contents(config('jwt.keys.public')), config('jwt.algorithm')))))
                 throw new Exception('invalid token decoding');
 
             // check if token exists in database
             if (! $token = JwtToken::where('unique_id', md5($jwt))->first())
                 throw new Exception('unauthorized token');
 
-            $request->merge(['user' => $token->user]);
+            $request->merge(['user' => $token->user ?? null]);
 
         } catch(Exception $e) {
             return response()->json([

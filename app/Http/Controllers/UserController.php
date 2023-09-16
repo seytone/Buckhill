@@ -13,7 +13,7 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request) : object
     {
         return response()->json([
             'success' => false,
@@ -42,7 +42,7 @@ class UserController extends Controller
      *     security={{"bearerAuth":{}}}
      * )
      */
-    public function show(Request $request, string $id)
+    public function show(Request $request, string $id) : object
     {
         // Check if the user is trying to see another user profile.
         if ($request->user->uuid !== $id)
@@ -114,6 +114,22 @@ class UserController extends Controller
      *        ),
      *     ),
      *     @OA\Response(
+     *        response=405,
+     *        description="Action not allowed.",
+     *        @OA\JsonContent(
+     *          @OA\Property(property="status_code", type="integer", example="403"),
+     *          @OA\Property(property="data", type="object")
+     *        ),
+     *     ),
+     *     @OA\Response(
+     *        response=404,
+     *        description="User not found.",
+     *        @OA\JsonContent(
+     *          @OA\Property(property="status_code", type="integer", example="403"),
+     *          @OA\Property(property="data", type="object")
+     *        ),
+     *     ),
+     *     @OA\Response(
      *        response=403,
      *        description="Validation errors.",
      *        @OA\JsonContent(
@@ -124,7 +140,7 @@ class UserController extends Controller
      *     security={{ "bearerAuth":{ }}}
      * )
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id) : object
     {
         // Check if the user is trying to edit another user profile.
         if ($request->user->uuid !== $id)
@@ -134,7 +150,12 @@ class UserController extends Controller
                 'data' => null,
             ], 405);
 
-        $user = User::where('is_admin', 0)->where('uuid', $id)->first();
+        if (! $user = User::where('is_admin', 0)->where('uuid', $id)->first())
+            return response()->json([
+                'success' => false,
+                'message' => 'User not found.',
+                'data' => null,
+            ], 404);
 
         $validator = Validator::make($request->all(), [
             'first_name' => 'required|string|max:255',
@@ -168,7 +189,7 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id) : object
     {
         return response()->json([
             'success' => false,
@@ -197,7 +218,7 @@ class UserController extends Controller
      *     security={{"bearerAuth":{}}}
      * )
      */
-    public function orders(Request $request, string $id)
+    public function orders(Request $request, string $id) : object
     {
         // Check if the user is trying to see another user orders.
         if ($request->user->uuid !== $id)
@@ -219,7 +240,7 @@ class UserController extends Controller
     /**
      * Send a password reset link to the given user.
      */
-    public function forgotPassword(Request $request)
+    public function forgotPassword(Request $request) : void
     {
         //
     }
@@ -227,7 +248,7 @@ class UserController extends Controller
     /**
      * Reset the given user's password.
      */
-    public function resetPassword(Request $request)
+    public function resetPassword(Request $request) : void
     {
         //
     }

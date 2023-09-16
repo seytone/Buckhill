@@ -39,7 +39,7 @@ class JwtToken extends Model
     /**
      * Get the user that owns the JWT token.
      */
-    public function user()
+    public function user() : object
     {
         return $this->belongsTo(User::class);
     }

@@ -29,7 +29,7 @@ class AdminController extends Controller
      *     security={{"bearerAuth":{}}}
      * )
      */
-    public function index()
+    public function index() : object
     {
         $admins = User::where('is_admin', 1)->paginate(20);
 
@@ -117,7 +117,7 @@ class AdminController extends Controller
      *     security={{"bearerAuth":{}}}
      * )
      */
-    public function store(Request $request)
+    public function store(Request $request) : object
     {
         $validator = Validator::make($request->all(), [
             'first_name' => 'required|string|max:255',
@@ -135,7 +135,7 @@ class AdminController extends Controller
                 'message' => $errors,
             ], 403);
 
-        $user = new User;
+        $user = new User();
         $user->uuid = $user->generateUuid();
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
@@ -173,11 +173,11 @@ class AdminController extends Controller
      *     security={{"bearerAuth":{}}}
      * )
      */
-    public function show(string $id)
+    public function show(string $id) : object
     {
         $admin = User::where('is_admin', 1)->where('uuid', $id)->first();
 
-        if (!$admin) {
+        if (! $admin) {
             return response()->json([
                 'success' => false,
                 'message' => 'Admin not found.',
@@ -195,7 +195,7 @@ class AdminController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id) : object
     {
         return response()->json([
             'success' => false,
@@ -207,7 +207,7 @@ class AdminController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id) : object
     {
         return response()->json([
             'success' => false,
@@ -236,7 +236,7 @@ class AdminController extends Controller
      *     security={{"bearerAuth":{}}}
      * )
      */
-    public function userListing()
+    public function userListing() : object
     {
         $users = User::where('is_admin', 0)->paginate(20);
         $users->appends(['sort' => 'first_name']);
@@ -301,6 +301,14 @@ class AdminController extends Controller
      *        ),
      *     ),
      *     @OA\Response(
+     *        response=404,
+     *        description="User not found.",
+     *        @OA\JsonContent(
+     *          @OA\Property(property="status_code", type="integer", example="403"),
+     *          @OA\Property(property="data", type="object")
+     *        ),
+     *     ),
+     *     @OA\Response(
      *        response=403,
      *        description="Validation errors.",
      *        @OA\JsonContent(
@@ -311,9 +319,14 @@ class AdminController extends Controller
      *     security={{"bearerAuth":{}}}
      * )
      */
-    public function userEdit(Request $request, string $id)
+    public function userEdit(Request $request, string $id) : object
     {
-        $user = User::where('is_admin', 0)->where('uuid', $id)->first();
+        if (! $user = User::where('is_admin', 0)->where('uuid', $id)->first())
+            return response()->json([
+                'success' => false,
+                'message' => 'User not found.',
+                'data' => null,
+            ], 404);
 
         $validator = Validator::make($request->all(), [
             'first_name' => 'required|string|max:255',
@@ -371,7 +384,7 @@ class AdminController extends Controller
      *    security={{"bearerAuth":{}}}
      *  )
      */
-    public function userDelete(string $id)
+    public function userDelete(string $id) : object
     {
         User::where('is_admin', 0)->where('uuid', $id)->delete();
 

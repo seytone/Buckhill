@@ -44,7 +44,7 @@ class Order extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user()
+    public function user() : object
     {
         return $this->belongsTo(User::class);
     }
@@ -54,7 +54,7 @@ class Order extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function order_status()
+    public function order_status() : object
     {
         return $this->belongsTo(OrderStatus::class);
     }
@@ -64,7 +64,7 @@ class Order extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function payment()
+    public function payment() : object | null
     {
         return $this->belongsTo(Payment::class);
     }

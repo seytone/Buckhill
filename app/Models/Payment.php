@@ -32,10 +32,10 @@ class Payment extends Model
     /**
      * A payment status may have many orders.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function orders()
+    public function orders() : object
     {
-        return $this->hasMany(Order::class);
+        return $this->hasOne(Order::class);
     }
 }

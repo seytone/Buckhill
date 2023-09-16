@@ -24,7 +24,7 @@ class OrderStatus extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function orders()
+    public function orders() : object
     {
         return $this->hasMany(Order::class);
     }
