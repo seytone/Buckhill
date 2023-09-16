@@ -1,4 +1,4 @@
-<p align="center"><a href="https://www.buckhill.co.uk/about" target="_blank"><img src="https://cdn.softwarereviews.com/production/logos/offerings/1146/large/285aeae5-1d2f-40ea-b5d0-2b4ce6e94a4ebuckhill_logo.png" width="300"></a></p>
+<p align="center"><a href="https://www.buckhill.co.uk/about" target="_blank"><img src="https://pbs.twimg.com/profile_images/1448253066185170950/-aKSNf1I_400x400.jpg" width="400"></a></p>
 
 ## The Project
 
@@ -14,16 +14,27 @@ To run this project, just follow the steps below:
 
 - Clone the repo [https://github.com/seytone/Buckhill.git](https://github.com/seytone/Buckhill.git) to download to your local.
 - Open a Linux or WSL2 terminal
-- Run: git clone https://github.com/seytone/Buckhill.git
+- Run: git clone https://github.com/seytone/Buckhill.git PetShopAPI
 - Run: cd PetShopAPI
+- Run: cp .env.example .env
 - Run: composer install
+- Run: php artisan key:generate
 - Run: php artisan migrate
 - Run: php artisan db:seed
-- Run: php artisan serve
+- Run: php artisan serve --host=localhost --port=8000
 
 ## Instructions to test
 
-You can use Postman in order to test the API methods created for the task. So, just open Postman and import the Buckhill Backend-Task.postman_collection.json file located in the root folder, and run each endpoint. Or, just take a look at the Swagger documentation attached to the project by going to http://127.0.0.1:8000/api/documentation.
+You can use Postman in order to test the API methods created for the task. So, just open Postman and import the Buckhill Backend-Task.postman_collection.json file located in the root folder, and run each endpoint. Or, just take a look at the out of the box Swagger documentation attached to the project by going to http://localhost:8000/api/documentation/v1.
+
+Excecute Unit tests
+- Run: php artisan test
+
+Look for code error using PHPstan
+- Run: ./vendor/bin/phpstan analyse
+
+Analyze code quality using PHPinsights
+- Run: php artisan insights
 
 ## Technical Specifications
 

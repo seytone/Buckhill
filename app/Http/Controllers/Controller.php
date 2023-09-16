@@ -10,7 +10,7 @@ use Illuminate\Routing\Controller as BaseController;
  * @OA\Info(
  *    version="1.0.0",
  *    title="Buckhill Pet Shop API Documentation",
- *    description="This is a sample API documentation for a pet shop.",
+ *    description="This is a simple API documentation for Buckhill Pet Shop API v1.",
  * )
  * @OA\SecurityScheme(
  *     type="http",
