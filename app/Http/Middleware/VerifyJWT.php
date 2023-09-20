@@ -21,16 +21,8 @@ class VerifyJWT
     public function handle(Request $request, Closure $next): Response
     {
         try {
-            // check if header exists
-            if (empty($_SERVER['HTTP_AUTHORIZATION']))
-                throw new Exception('authorization header not found');
-
-            // check if bearer token exists
-            if (! preg_match('/Bearer\s(\S+)/', $_SERVER['HTTP_AUTHORIZATION'], $matches))
-                throw new Exception('token not found');
-
-            // extract token
-            if (! $jwt = $matches[1])
+            // extract token if exists
+            if (! $jwt = $request->bearerToken())
                 throw new Exception('could not extract token');
 
             // use public key to decode token

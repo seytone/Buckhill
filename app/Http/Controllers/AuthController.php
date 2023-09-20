@@ -47,8 +47,16 @@ class AuthController extends Controller
      *        ),
      *     ),
      *     @OA\Response(
-     *        response=401,
+     *        response=400,
      *        description="Validation errors.",
+     *        @OA\JsonContent(
+     *          @OA\Property(property="status_code", type="integer", example="401"),
+     *          @OA\Property(property="data", type="object")
+     *        ),
+     *     ),
+     *     @OA\Response(
+     *        response=401,
+     *        description="Invalid credentials.",
      *        @OA\JsonContent(
      *          @OA\Property(property="status_code", type="integer", example="401"),
      *          @OA\Property(property="data", type="object")
@@ -83,7 +91,7 @@ class AuthController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => $errors,
-            ], 401);
+            ], 400);
 
         if (! Auth::attempt($request->only(['email', 'password'])))
             return response()->json([
@@ -97,7 +105,7 @@ class AuthController extends Controller
                 'message' => 'User not found.',
             ], 404);
 
-        if (! $token = $this->generateAccessToken($user))
+        if (! $token = $this->generateAccessToken($request, $user))
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to generate access token.',
@@ -105,7 +113,7 @@ class AuthController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Login successful.',
+            'message' => 'User logged-in successfully.',
             'authorization' => [
                 'type' => 'bearer',
                 'access_token' => $token->access_token ?? null,
@@ -162,7 +170,7 @@ class AuthController extends Controller
     /**
      * Generate an user token.
      */
-    protected function generateAccessToken(User $user) : object | null
+    protected function generateAccessToken(Request $request, User $user) : object | null
     {
         if (! $user instanceof User)
             return null;
@@ -173,7 +181,7 @@ class AuthController extends Controller
 
         // define jwt token claims
         $payload = [
-            'iss' => $_SERVER['SERVER_NAME'],
+            'iss' => $request->server('SERVER_NAME', 'UNKNOWN'),
             'sub' => $user->uuid,
             'jti' => base64_encode(random_bytes(16)),
             'iat' => $issued_at,
