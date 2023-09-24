@@ -26,11 +26,11 @@ class UserSeeder extends Seeder
                     'password' => bcrypt('admin'),
                 ],
                 [
-                    'first_name' => 'Jackson',
-                    'last_name' => 'Echeverri',
-                    'is_admin' => 1,
-                    'email' => 'jecheverri@buckhill.co.uk',
-                    'password' => bcrypt('jecheverri'),
+                    'first_name' => 'Buckhill',
+                    'last_name' => 'Regular User',
+                    'is_admin' => 0,
+                    'email' => 'user@buckhill.co.uk',
+                    'password' => bcrypt('users'),
                 ]
             ))
             ->create();

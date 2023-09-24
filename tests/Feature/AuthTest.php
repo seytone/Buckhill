@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Database\Seeders\UserSeeder;
 use Tests\TestCase;
 
 class AuthTest extends TestCase
@@ -13,45 +12,25 @@ class AuthTest extends TestCase
 
     public function test_api_login_works(): void
     {
-        $this->seed();
-
-        $this->post(uri: '/api/v1/auth/login', data: [
-            'email' => 'admin@buckhill.co.uk',
-            'password' => 'admin',
-        ])
+        $this->authenticate('admin@buckhill.co.uk', 'admin')
             ->assertStatus(status: 200);
     }
 
     public function test_api_login_validates_form_data(): void
     {
-        $this->seed();
-
-        $this->post(uri: '/api/v1/auth/login', data: [
-            'email' => 'loremipsum',
-            'password' => '',
-        ])
+        $this->authenticate('loremipsum', '')
             ->assertStatus(status: 400);
     }
 
     public function test_api_login_validates_credentials(): void
     {
-        $this->seed();
-
-        $this->post(uri: '/api/v1/auth/login', data: [
-            'email' => 'admin@buckhill.co.uk',
-            'password' => 'admin123',
-        ])
+        $this->authenticate('admin@buckhill.co.uk', 'admin123')
             ->assertStatus(status: 401);
     }
 
     public function test_api_login_returns_success_response(): void
     {
-        $this->seed();
-
-        $this->post(uri: '/api/v1/auth/login', data: [
-            'email' => 'admin@buckhill.co.uk',
-            'password' => 'admin',
-        ])
+        $this->authenticate('admin@buckhill.co.uk', 'admin')
             ->assertJsonStructure([
                 'success',
                 'message',
@@ -70,17 +49,24 @@ class AuthTest extends TestCase
 
     public function test_api_logout_works(): void
     {
-        $this->seed();
-
-        $login = (object) json_decode($this->post(uri: '/api/v1/auth/login', data: [
-            'email' => 'admin@buckhill.co.uk',
-            'password' => 'admin',
-        ])->getContent());
+        $login = (object) json_decode($this->authenticate('admin@buckhill.co.uk', 'admin')->getContent());
 
         $this->withHeaders([
             'Authorization'=>'Bearer ' . $login->authorization->access_token
         ])
             ->get(uri: '/api/v1/auth/logout')
             ->assertStatus(status: 200);
+    }
+
+    private function authenticate(string $email, string $password): \Illuminate\Testing\TestResponse
+    {
+        $this->seed();
+
+        $login = $this->post(uri: '/api/v1/auth/login', data: [
+            'email' => $email,
+            'password' => $password,
+        ]);
+
+        return $login;
     }
 }
