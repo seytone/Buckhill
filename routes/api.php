@@ -47,17 +47,8 @@ Route::middleware(['jwt.auth'])->group(function ()
             Route::post('reset-password-token', 'resetPassword')->name('reset_password');
         });
         Route::apiResources(['user' => UserController::class]);
-    });
-    Route::prefix('payments')->name('payments.')->group(function ()
-    {
-
-    });
-    Route::prefix('order-statuses')->name('order_statuses.')->group(function ()
-    {
-
-    });
-    Route::prefix('orders')->name('orders.')->group(function ()
-    {
-
+        Route::apiResources(['payments' => PaymentController::class]);
+        Route::apiResources(['order-statuses' => OrderStatusController::class]);
+        Route::apiResources(['orders' => OrderController::class]);
     });
 });
